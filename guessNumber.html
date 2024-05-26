@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>guess the number</title>
+</head>
+<style>
+    body{
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #414141;
+        color: aliceblue;
+        height:100vh;
+        width:100%;
+    }
+    h1{
+        margin-bottom: 0px;
+        
+    }
+    .warper{
+        display: flex;
+        flex-direction:column;
+        background-color: black;
+        height:75%;
+        border: 3px solid white;
+        padding: 15px;
+        width:50%;
+        border-radius: 30px;
+    }
+    .container-upper{
+        display: flex;
+        flex-direction: column;
+        flex:1;
+        justify-content: space-evenly;
+        align-items: center;
+        
+    }
+    .container-lower{
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items:center;
+        font-size: 25px;
+    }
+    #userInput{
+        width:40%;
+        height:15%;
+        font-size: 20px;
+    }
+
+    .btn{
+        background-color: orange;
+        font-size: 15px;
+        font-weight: bolder;
+        color: black;
+        width: 20%;
+        height: 12%;
+        border: 3px solid white;
+        border-radius:10px;
+    }
+    .newGame{
+        cursor: pointer;
+        margin: 0;
+    }
+    .hide{
+        visibility:hidden;
+    }
+</style>
+<body>
+    <div class="warper">
+        <div class="container-upper">
+            <h1>Guess the Number</h1>
+            <p>1 To 100</p>
+            <input type="text" name="" id="userInput" class="input" placeholder="Enter your Guess">
+            <input type="submit" value="Submit number" id="submit" class="btn">
+        </div>
+        <div class="container-lower">
+            <div class="gameinfo">
+                <p>guesses remaining: <span class="remaining">10</span></p>
+                <p>previous guesses: <span class="previousGuesses"></span></p>
+                <p id="output" class="output" style="margin: 0;"></p>
+            </div>
+        </div>
+        
+    </div>
+<script>
+    let randomNumber = parseInt(Math.random()*100+1);
+    let userInput = document.querySelector(".input");
+    const submitButton = document.querySelector("#submit");
+    const remainingGuesses = document.querySelector(".remaining");
+    const lastGuesses = document.querySelector(".previousGuesses")
+    const output = document.querySelector(".output");
+    const lowerContainer = document.querySelector('.container-lower');
+
+
+    let guessNumber = 1;
+    let previousGuesses = [];
+    let playGame = true;
+    let p = document.createElement('p')
+
+    if(playGame){
+        submitButton.addEventListener('click', function(e){
+            e.preventDefault();
+            const userGuess = parseInt(userInput.value);
+            validateGuess(userGuess);
+        })
+    }
+
+    function validateGuess(input){
+        if(guessNumber === 11){
+                displayMassege(`game Over right number was ${input}`);
+                playGame = false;
+                endGame();
+            }
+        else if(input === '' || input > 100|| input < 0 || isNaN(input)){
+            let massege = `please enter a valid number ${input} is not in the ranges`;
+            displayMassege(massege);
+        }
+        else{
+            checkResult(input);
+        }
+    }
+
+    function checkResult(input){
+        if(input === randomNumber){
+            displayMassege(`You Won!`);
+            updateEverything(input)
+            endGame();
+        }
+        else if(input < randomNumber){
+            displayMassege(`Guess the highr number`);
+        }
+        else{
+            displayMassege(`Guess the lower Number`)
+        }
+        updateEverything(input);
+        guessNumber++;
+
+    }
+
+    function updateEverything(input){
+        userInput.value = '';
+        lastGuesses.innerHTML += `${input} `;
+        remainingGuesses.innerHTML = `${10 - guessNumber}`
+    }
+
+    function displayMassege(massage){
+        output.innerHTML = `<h2>${massage}</h2>`
+    }
+
+    function endGame(){
+        userInput.value = '';
+        userInput.setAttribute('disabled' , '')
+        submitButton.setAttribute('disabled','')
+        p.innerHTML = `<h2 class ="newGame" id="newGame">Start New Game</h2>`
+        output.innerHTML += `<h2>Random numer is ${randomNumber}. </h2>`
+        lowerContainer.appendChild(p);
+        playGame = false;
+        submitButton.classList.add('hide');
+        userInput.classList.add('hide')
+        newGame();
+    }
+
+    function newGame(){
+        document.querySelector('#newGame').addEventListener('click',function(e) {
+            randomNumber = parseInt(Math.random()*100+1);
+            submitButton.classList.remove('hide');
+            userInput.classList.remove('hide')
+            guessNumber = 1;
+            previousGuesses = [];
+            lastGuesses.innerHTML = '';
+            output.innerHTML = '';
+            remainingGuesses.innerHTML = 10;
+            p.innerHTML = '';
+            submitButton.removeAttribute('disabled');
+            userInput.removeAttribute('disabled');
+            playGame = true;
+        })
+    }
+</script>
+</body>
+</html>

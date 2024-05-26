@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>change background color</title>
+    <style>
+        body{
+            margin: 0; padding: 0; box-sizing: border-box; display:flex; align-items: center; justify-content: center; height:100vh;
+        }
+        .container{
+            color:aqua;
+            display: flex;
+            width: 850px;
+            height:600px;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            border: 5px solid black;
+        }
+        h1{
+            font-size: 50px;
+        }
+
+        .button{
+            height:50px;
+            width:150px;
+            margin: 5px;
+            border-radius: 25px;
+            border: 3px solid white;
+        }
+        .colorContainer{
+            display: flex;
+            
+            
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>pick the color</h1>
+        <div class="colorContainer">
+            <div style="background-color: red;"   class="button" id="red"></div>
+            <div style="background-color: green;" class="button" id="green"></div>
+            <div style="background-color: blue;"  class="button" id="blue"></div>
+            <div style="background-color: purple;"class="button" id="purple"></div>
+            <div style="background-color: gray;"  class="button" id="gray"></div>
+            </div>
+            <div class="p">
+                <h2 style="color:black; font-size:30px; margin-top:200px;">choose the color to change the background color</h2>
+            </div>
+    </div>
+    <script>
+        let button = document.querySelectorAll('.button');
+        let body = document.querySelector('body');
+
+        button.forEach(function (button){
+            button.addEventListener('click' , function(btn) {
+                let color = btn.target.id;
+                console.log(color)
+
+                switch (color) {
+                    case 'red':
+                        body.style.backgroundColor = color;
+                        break;
+                        case 'green':
+                        body.style.backgroundColor = color;
+                        break;
+                        case 'blue':
+                        body.style.backgroundColor = color;
+                        break;
+                        case 'gray':
+                        body.style.backgroundColor = color;
+                        break;
+                        case 'purple':
+                        body.style.backgroundColor = color;
+                        break
+                
+                }
+            })
+        });
+    </script>
+</body>
+</html>
